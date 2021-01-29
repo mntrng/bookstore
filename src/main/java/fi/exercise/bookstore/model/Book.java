@@ -1,12 +1,26 @@
 package fi.exercise.bookstore.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Book {
 	
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long id;
+    
 	private String title;
 	private String author;
 	private String isbn;
 	private int year;
 	private double price;
+	
+	public Book() {
+		super();
+	}
 	
 	public Book(String title, String author, String isbn, int year, double price) {
 		super();
@@ -15,6 +29,14 @@ public class Book {
 		this.isbn = isbn;
 		this.year = year;
 		this.price = price;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getTitle() {
