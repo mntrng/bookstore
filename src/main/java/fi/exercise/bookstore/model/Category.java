@@ -3,6 +3,8 @@ package fi.exercise.bookstore.model;
 import java.util.List;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Category {
 
@@ -11,6 +13,7 @@ public class Category {
     private Long categoryid;
 	private String name;
 	
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
 	private List<Book> books;
 	

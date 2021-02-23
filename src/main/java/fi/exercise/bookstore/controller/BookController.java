@@ -1,11 +1,15 @@
 package fi.exercise.bookstore.controller;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import fi.exercise.bookstore.model.Book;
 import fi.exercise.bookstore.repository.BookRepository;
@@ -25,6 +29,18 @@ public class BookController {
 		model.addAttribute("books", repository.findAll());
 		return "booklist";
 	}
+	
+	// REST service to get all books
+	@GetMapping("/books")
+	public @ResponseBody List<Book> bookListRest() {
+		return (List<Book>) repository.findAll();
+	}
+	
+	// REST service that returns a book by its id
+	@GetMapping("/book/{id}")
+	public @ResponseBody Optional<Book> fetchBookRest(@PathVariable("id") Long bookId) {
+		return repository.findById(bookId);
+	}	
 	
 	// Page for adding a new book
 	@GetMapping("/addbook")
