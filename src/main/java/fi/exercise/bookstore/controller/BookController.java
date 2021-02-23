@@ -3,13 +3,13 @@ package fi.exercise.bookstore.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import fi.exercise.bookstore.model.Book;
 import fi.exercise.bookstore.repository.BookRepository;
+import fi.exercise.bookstore.repository.CategoryRepository;
 
 @Controller
 public class BookController {
@@ -17,11 +17,8 @@ public class BookController {
 	@Autowired
 	private BookRepository repository;
 	
-	@GetMapping("/index")
-	public String index(Model model) {
-		model.addAttribute("book", new Book("No title", "Trung Nguyen", "123456XXX", 2021, 19999.2222));
-		return "index";
-	}
+	@Autowired
+	private CategoryRepository catRepository;
 	
 	@GetMapping("/booklist")
 	public String booklist(Model model) {
@@ -33,11 +30,12 @@ public class BookController {
 	@GetMapping("/addbook")
 	public String addBookForm(Model model) {
 		model.addAttribute("newbook", new Book());
+		model.addAttribute("categories", catRepository.findAll());
 		return "addbook";
 	}
 	
 	@PostMapping("/save")
-	public String addBook(Book newbook, BindingResult result) {
+	public String addBook(Book newbook) {
 		repository.save(newbook);
 		return "redirect:/booklist";
 	}
