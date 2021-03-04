@@ -9,8 +9,10 @@ import org.springframework.context.annotation.Bean;
 
 import fi.exercise.bookstore.model.Book;
 import fi.exercise.bookstore.model.Category;
+import fi.exercise.bookstore.model.User;
 import fi.exercise.bookstore.repository.BookRepository;
 import fi.exercise.bookstore.repository.CategoryRepository;
+import fi.exercise.bookstore.repository.UserRepository;
 
 @SpringBootApplication
 public class BookstoreApplication {
@@ -22,7 +24,7 @@ public class BookstoreApplication {
 	}
 	
 	@Bean
-	public CommandLineRunner addRandomData(BookRepository bookRepository, CategoryRepository categoryRepository) {
+	public CommandLineRunner addRandomData(BookRepository bookRepository, CategoryRepository categoryRepository, UserRepository userRepo) {
 		return (args) -> {
 			log.info("Adding some dummy data");
 			categoryRepository.save(new Category("Science"));
@@ -34,6 +36,8 @@ public class BookstoreApplication {
 			bookRepository.save(new Book("Databases", "Bukma Dahal", "000-11-2222-2", 1990, 1.12, categoryRepository.findByName("Technology").get(0)));
 			bookRepository.save(new Book("Programming I", "Alan Turing", "000-11-2244-2", 1940, 1000.8, categoryRepository.findByName("Technology").get(0)));
 			bookRepository.save(new Book("Laugh Right Now", "Russell Peters", "000-11-2222-5", 1995, 33.5, categoryRepository.findByName("Comedy").get(0)));
+			userRepo.save(new User("user", "$2a$10$DYtVGWDB63MXIdRL8GMAnOseSGxdV/pbOrPO4SSSSVvx.Hn7NToTC", "user@user.com", "USER"));
+			userRepo.save(new User("admin", "$2a$10$qVA9GwzeRyGPEyF/u398lu3CWmdKVdVaTpg98o2D.LD9LNbOyBxUa", "admin@admin.com", "ADMIN"));
 		};
 	}
 }
