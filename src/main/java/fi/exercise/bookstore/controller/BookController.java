@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import fi.exercise.bookstore.model.Book;
@@ -57,6 +59,7 @@ public class BookController {
 	}
 	
 	@GetMapping("/delete/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public String deleteBook(@PathVariable("id") long bookId, Model model) {
 	    repository.deleteById(bookId);
 	    return "redirect:/booklist";
@@ -68,4 +71,15 @@ public class BookController {
 	    model.addAttribute("book", repository.findById(bookId));
 	    return "editbook";
 	}
+	
+	@RequestMapping("/login")
+	public String login() {
+		return "login";
+	}
+	
+	@RequestMapping("/login-error")
+	public String loginError(Model model) {
+		model.addAttribute("loginError", true);
+		return "login";
+	} 
 }
