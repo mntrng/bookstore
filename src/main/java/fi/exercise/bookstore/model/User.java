@@ -3,6 +3,7 @@ package fi.exercise.bookstore.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "Users")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
