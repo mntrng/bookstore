@@ -81,5 +81,5 @@ public class BookController {
 	public String loginError(Model model) {
 		model.addAttribute("loginError", true);
 		return "login";
-	} 
+	}
 }
